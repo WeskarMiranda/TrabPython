@@ -1,52 +1,52 @@
 create database dw_inep;
 use dw_inep;
 
-#Criação das tabelas Dimensão 2020
-drop table if exists dim_ano_2020;
-create table dim_ano_2020
+#Criação das tabelas Dimensão 2020 e 2021
+drop table if exists dim_ano;
+create table dim_ano
 (
 	tf_ano bigint,
     ano varchar(255)
 );
 
-drop table if exists dim_curso_2020;
-create table dim_curso_2020
+drop table if exists dim_curso;
+create table dim_curso
 (
 	tf_curso bigint,
     curso varchar(255)
 );
 
-drop table if exists dim_uf_2020;
-create table dim_uf_2020
+drop table if exists dim_uf;
+create table dim_uf
 (
 	tf_uf bigint,
     uf varchar(255)
 );
 
-select * from dim_uf_2020;
+select * from dim_uf;
 
-drop table if exists dim_municipio_2020;
-create table dim_municipio_2020
+drop table if exists dim_municipio;
+create table dim_municipio
 (
 	tf_municipio bigint,
     municipio varchar(255)
 );
 
-drop table if exists dim_ies_2020;
-create table dim_ies_2020
+drop table if exists dim_ies;
+create table dim_ies
 (
 	tf_ies bigint,
     ies varchar(255)
 );
 
-drop table if exists dim_modalidade_2020;
-create table dim_modalidade_2020
+drop table if exists dim_modalidade;
+create table dim_modalidade
 (
 	tf_modalidade bigint,
     modalidade varchar(255)
 );
 #################################
-create table fact_matriculas_2020
+create table fact_matriculas
 (
 	matriculados int,
     tf_ano bigint,
@@ -56,77 +56,30 @@ create table fact_matriculas_2020
     tf_municipio bigint,
     tf_modalidade bigint
 );
-drop table fact_matriculas_2020;
-select * from dim_ano_2020;
-select * from fact_matriculas_2020 LIMIT 0, 10000;
-select * from dim_curso_2020 LIMIT 0, 10000;
-select * from dim_ies_2020 LIMIT 0, 10000;
-select * from dim_modalidade_2020;
-select * from dim_municipio_2020 LIMIT 0, 10000;
-select * from dim_uf_2020;
-SELECT * FROM fact_matriculas_2020 WHERE tf_municipio = 2944;
-
-#Criação das tabelas Dimensão 2021
-drop table if exists dim_ano_2021;
-create table dim_ano_2021
-(
-	tf_ano bigint,
-    ano varchar(255)
-);
-
-drop table if exists dim_curso_2021;
-create table dim_curso_2021
-(
-	tf_curso bigint,
-    curso varchar(255)
-);
-
-drop table if exists dim_uf_2021;
-create table dim_uf_2021
-(
-	tf_uf bigint,
-    uf varchar(255)
-);
-
-select * from dim_uf_2021;
-
-drop table if exists dim_municipio_2021;
-create table dim_municipio_2021
-(
-	tf_municipio bigint,
-    municipio varchar(255)
-);
-
-drop table if exists dim_ies_2021;
-create table dim_ies_2021
-(
-	tf_ies bigint,
-    ies varchar(255)
-);
-
-drop table if exists dim_modalidade_2021;
-create table dim_modalidade_2021
-(
-	tf_modalidade bigint,
-    modalidade varchar(255)
-);
-#################################
-create table fact_matriculas_2021
-(
-	matriculados int,
-    tf_ano bigint,
-    tf_curso bigint,
-    tf_ies bigint,
-    tf_uf bigint,
-    tf_municipio bigint,
-    tf_modalidade bigint
-);
-drop table fact_matriculas_2021;
-select * from dim_ano_2021;
-select * from fact_matriculas_2021 LIMIT 0, 10000;
-select * from dim_curso_2021 LIMIT 0, 10000;
-select * from dim_ies_2021 LIMIT 0, 10000;
-select * from dim_modalidade_2021;
-select * from dim_municipio_2021 LIMIT 0, 10000;
-select * from dim_uf_2021;
-SELECT * FROM fact_matriculas_2021 WHERE tf_municipio = 2944;
+drop table fact_matriculas;
+select * from dim_ano;
+select * from fact_matriculas LIMIT 0, 10000;
+select * from dim_curso LIMIT 0, 10000;
+select * from dim_ies LIMIT 0, 10000;
+select * from dim_modalidade;
+select * from dim_municipio LIMIT 0, 10000;
+select * from dim_uf;
+SELECT * FROM fact_matriculas WHERE tf_municipio = 2944;
+SELECT
+matriculados,
+  tf_ano,
+  tf_curso,
+  tf_ies,
+  tf_uf,
+  tf_municipio,
+  tf_modalidade
+FROM
+  fact_matriculas
+WHERE
+  tf_ano = 1
+  AND tf_curso = 5
+  AND tf_ies = 2
+  AND tf_uf = 1
+  AND tf_municipio = 1
+  AND tf_modalidade = 2;
+select count(*) from fact_matriculas;
