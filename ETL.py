@@ -125,14 +125,11 @@ try:
 
     print("Ies deu Certo!")
 
-    # Remover as linhas repetidas
-    dados = dados.drop_duplicates()
-
-    # Remover as linhas repetidas com base nas colunas CO_IES, NO_MUNICIPIO e TP_MODALIDADE_ENSINO
-    dados = dados.drop_duplicates(subset=['CO_IES', 'NO_MUNICIPIO', 'TP_MODALIDADE_ENSINO'])
+    
 
     # #Fact matriculas
     for i, r in dados.iterrows():
+        
         if r['TP_MODALIDADE_ENSINO'] == 1:
             modalidade  = 'Presencial'
         elif  r['TP_MODALIDADE_ENSINO'] == 2:
@@ -146,21 +143,24 @@ try:
         dados_IES_filtrado=dados_IES[dados_IES['CO_IES'] == r['CO_IES']]
         no_ies = dados_IES_filtrado['NO_IES'].iloc[0].replace("'","")
 
+        
+
 
         insert_statement = f"""
         INSERT INTO fact_matriculas (matriculados,tf_ano,tf_curso,tf_ies,tf_uf,tf_municipio,tf_modalidade)
         SELECT DISTINCT * FROM
-        (SELECT {dados['QT_INSCRITO_TOTAL']}) as matriculados,
-        (SELECT DISTINCT tf_ano FROM dim_ano WHERE ano = {dados['NU_ANO_CENSO']}) as tf_ano,
-        (SELECT DISTINCT tf_curso FROM dim_curso WHERE curso = '{dados['NO_CURSO']}') as tf_curso,
+        (SELECT {r['QT_INSCRITO_TOTAL']}) as matriculados,
+        (SELECT DISTINCT tf_ano FROM dim_ano WHERE ano = {r['NU_ANO_CENSO']}) as tf_ano,
+        (SELECT DISTINCT tf_curso FROM dim_curso WHERE curso = '{r['NO_CURSO']}') as tf_curso,
         (SELECT DISTINCT tf_ies FROM dim_ies WHERE ies = '{no_ies}') as tf_ies,
-        (SELECT DISTINCT tf_uf FROM dim_uf WHERE uf = '{dados['NO_UF']}') as tf_uf,
+        (SELECT DISTINCT tf_uf FROM dim_uf WHERE uf = '{r['NO_UF']}') as tf_uf,
         (SELECT DISTINCT tf_municipio FROM dim_municipio WHERE municipio = '{municipio}') as tf_municipio,
         (SELECT DISTINCT tf_modalidade FROM dim_modalidade WHERE modalidade = '{modalidade}') as tf_modalidade
         """
         print(insert_statement)
         cursor.execute(insert_statement)
         conn.commit()
+        
 
     print('Acabou!')
 
