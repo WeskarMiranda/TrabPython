@@ -8,7 +8,7 @@ from sklearn import preprocessing
 from pickle import dump
 from pickle import load
 #1. Avaliar a frequencia das classes
-dados = pd.read_csv('C:/Users/Weskar/Documents/GitHub/TrabPython/wdbc.txt', sep = ',')
+dados = pd.read_csv('E:/Nova Biblioteca/NovaBiblioteca/GitHub/TrabPython/wdbc.txt', sep = ',')
 dados_num = dados.drop(columns=['Diagnosis'])
 dados_cat = dados['Diagnosis']
 
@@ -24,9 +24,9 @@ dados_final = pd.DataFrame(data = dados_num_normalizado, columns = ['ID','radius
 dados_final = dados_final.join(dados_cat_normalizado, how = 'left')
 dados_final
 
-dump(modelo_normalizador,open('C:/Users/Weskar/Documents/GitHub/TrabPython/wdbc_normalizado.pkl', 'wb'))
+dump(modelo_normalizador,open('E:/Nova Biblioteca/NovaBiblioteca/GitHub/TrabPython/wdbc_normalizado.pkl', 'wb'))
 
-modelo_normalizador  = load(open('C:/Users/Weskar/Documents/GitHub/TrabPython/wdbc_normalizado.pkl', 'rb'))
+modelo_normalizador  = load(open('E:/Nova Biblioteca/NovaBiblioteca/GitHub/TrabPython/wdbc_normalizado.pkl', 'rb'))
 
 # print(dados['Diagnosis'].value_counts())
 
@@ -44,6 +44,8 @@ atr_train, atr_test, class_train, class_test = train_test_split(dados_atributos,
 diagnosis_tree = tree.fit(atr_train, class_train)
 Class_predict = diagnosis_tree.predict(atr_test)
 # print(Class_predict)
+
+print(dados)
 
 # ---------------------------------------
 
