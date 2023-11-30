@@ -50,7 +50,7 @@ diagnosis_tree = tree.fit(atr_train, class_train)
 
 Class_predict = diagnosis_tree.predict(atr_test)
 
-# matrix_confusion = confusion_matrix(teste_b, previsao_b)
+# matrix_confusion = confusion_matrix(class_test, Class_predict)
 
 acuracia_metrics = accuracy_score(class_test, Class_predict)
 print(f'Metricas de Acurácia: {acuracia_metrics}')
