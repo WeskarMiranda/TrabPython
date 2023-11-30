@@ -40,25 +40,25 @@ resampled_a, resampled_b = balanced.fit_resample(normalizar_df, dados['Class'])
 balanced_df = pd.DataFrame(data=resampled_a, columns=normalizar_df.columns)
 balanced_df['Class'] = resampled_b
 
-treino_a, teste_a, treino_b, teste_b = train_test_split(balanced_df.drop('Class', axis=1), balanced_df['Class'],  test_size=0.2, random_state=42)
+atr_train, atr_test, class_train, class_test = train_test_split(balanced_df.drop('Class', axis=1), balanced_df['Class'],  test_size=0.2, random_state=42)
 
 print(f'Dados Balanceados: {balanced_df}')
 
 tree = DecisionTreeClassifier(random_state=42)
 
-tree.fit(treino_a, treino_b)
+diagnosis_tree = tree.fit(atr_train, class_train)
 
-previsao_b = tree.predict(teste_a)
+Class_predict = diagnosis_tree.predict(atr_test)
 
 # matrix_confusion = confusion_matrix(teste_b, previsao_b)
 
-acuracia_metrics = accuracy_score(teste_b, previsao_b)
+acuracia_metrics = accuracy_score(class_test, Class_predict)
 print(f'Metricas de Acurácia: {acuracia_metrics}')
 
-report_classification = classification_report(teste_b, previsao_b)
+report_classification = classification_report(class_test, Class_predict)
 print(f'Reporte da Classificação: {report_classification}')
 
-cm=confusion_matrix(teste_b, previsao_b)
+cm=confusion_matrix(class_test, Class_predict)
 print(f'Matriz de Confusão: {cm}')
 disp = ConfusionMatrixDisplay(confusion_matrix = cm, display_labels = tree.classes_)
 disp.plot()
